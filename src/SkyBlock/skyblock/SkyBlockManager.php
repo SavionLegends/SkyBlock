@@ -4,7 +4,7 @@ namespace SkyBlock\skyblock;
 
 use pocketmine\block\Block;
 use pocketmine\item\Item;
-use pocketmine\level\generator\Generator;
+use pocketmine\level\generator\GeneratorManager;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
@@ -34,7 +34,7 @@ class SkyBlockManager {
         $this->plugin->getIslandManager()->createIsland($player, $generatorName);
         $server = $this->plugin->getServer();
         $island = $this->getPlayerConfig($player)->get("island");
-        $server->generateLevel($island, null, Generator::getGenerator($generatorName));
+        $server->generateLevel($island, null, GeneratorManager::getGenerator($generatorName));
         $server->loadLevel($island);
         $this->spawnDefaultChest($island);
     }
@@ -44,7 +44,7 @@ class SkyBlockManager {
         $level->setBlock(new Vector3(10, 6, 4), new Block(0, 0));
         $level->loadChunk(10, 4, true);
         /** @var Chest $chest */
-        $chest = Tile::createTile("Chest",$level->getChunk(10 >> 4, 4 >> 4), new CompoundTag(" ", [
+        $chest = Tile::createTile("Chest", $level, new CompoundTag(" ", [
             new ListTag("Items", []),
             new StringTag("id", Tile::CHEST),
             new IntTag("x", 10),
@@ -61,7 +61,7 @@ class SkyBlockManager {
         $inventory->addItem(Item::get(Item::BONE, 0, 1));
         $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
         $inventory->addItem(Item::get(Item::CACTUS, 0, 1));
-        $inventory->addItem(Item::get(Item::SUGAR_CANE, 0, 1));
+        $inventory->addItem(Item::get(Item::SUGARCANE, 0, 1));
         $inventory->addItem(Item::get(Item::BREAD, 0, 1));
         $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
         $inventory->addItem(Item::get(Item::LEATHER_BOOTS, 0, 1));
