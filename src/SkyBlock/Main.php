@@ -52,7 +52,7 @@ class Main extends PluginBase {
         $this->setInvitationHandler();
         $this->setChatHandler();
         $this->setResetHandler();
-        $this->setPluginHearbeat();
+        $this->setPluginHeartbeat();
         $this->registerCommand();
         $this->getLogger()->info( "Skyblock by xXSirGamesXx, remade by SavionLegends, has been Enabled");
     }
@@ -162,9 +162,9 @@ class Main extends PluginBase {
     }
 
     /**
-     * Schedule the PluginHearbeat
+     * Schedule the PluginHeartbeat
      */
-    public function setPluginHearbeat() {
+    public function setPluginHeartbeat() {
         $this->getScheduler()->scheduleRepeatingTask(new PluginHeartbeat($this), 20);
     }
 
@@ -197,13 +197,13 @@ class Main extends PluginBase {
     }
 
     public function initialize() {
-        if(!is_dir($this->getDataFolder())) {
+        if(!is_dir($this->getDataFolder())){
             @mkdir($this->getDataFolder());
         }
-        if(!is_dir($this->getDataFolder() . "islands")) {
+        if(!is_dir($this->getDataFolder() . "islands")){
             @mkdir($this->getDataFolder() . "islands");
         }
-        if(!is_dir($this->getDataFolder() . "users")) {
+        if(!is_dir($this->getDataFolder() . "users")){
             @mkdir($this->getDataFolder() . "users");
         }
         $this->saveDefaultConfig();
