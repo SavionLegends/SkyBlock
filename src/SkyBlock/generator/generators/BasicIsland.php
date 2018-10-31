@@ -3,6 +3,7 @@
 namespace SkyBlock\generator\generators;
 
 use pocketmine\block\Block;
+use pocketmine\level\biome\Biome;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
@@ -18,10 +19,10 @@ class BasicIsland extends SkyBlockGenerator {
     private $name;
 
     /** @var ChunkManager */
-    private $level;
+    protected $level;
 
     /** @var Random */
-    private $random;
+    protected $random;
 
     /**
      * BasicIsland constructor.
@@ -38,7 +39,7 @@ class BasicIsland extends SkyBlockGenerator {
      * @param ChunkManager $level
      * @param Random $random
      */
-    public function init(ChunkManager $level, Random $random) {
+    public function init(ChunkManager $level, Random $random) : void{
         $this->level = $level;
         $this->random = $random;
         $this->name = "basic";
@@ -50,15 +51,15 @@ class BasicIsland extends SkyBlockGenerator {
      *
      * @return string
      */
-    public function getName() {
+    public function getName() : string {
         return $this->name;
     }
 
-    public function getSettings() {
+    public function getSettings() : array {
         return $this->settings;
     }
 
-    public function generateChunk($chunkX, $chunkZ) {
+    public function generateChunk($chunkX, $chunkZ) : void{
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
         if ($chunkX % 20 == 0 && $chunkZ % 20 == 0) {
@@ -79,10 +80,10 @@ class BasicIsland extends SkyBlockGenerator {
         }
     }
 
-    public function populateChunk($chunkX, $chunkZ) {
+    public function populateChunk($chunkX, $chunkZ) : void{
         for ($x = 0; $x < 16; $x++) {
             for ($z = 0; $z < 16; $z++) {
-                $this->level->getChunk($chunkX, $chunkZ)->setBiomeColor($x, $z, 133, 188, 86);
+                $this->level->getChunk($chunkX, $chunkZ)->setBiomeId($x, $z, Biome::PLAINS);
             }
         }
     }
@@ -92,7 +93,7 @@ class BasicIsland extends SkyBlockGenerator {
      *
      * @return Vector3
      */
-    public function getSpawn() {
+    public function getSpawn() : Vector3{
         return new Vector3(8, 7, 10);
     }
 

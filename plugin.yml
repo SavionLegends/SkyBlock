@@ -1,0 +1,6 @@
+name: SkyBlockPE
+author: ["xXSirButterXx/xXSirGamesXx" , "SavionLegends"]
+website: http://github.com/xXSirGamesXx
+main: SkyBlock\Main
+version: "1.0.0_BETA"
+api: "3.3.0"

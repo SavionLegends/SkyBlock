@@ -3,6 +3,8 @@
 namespace SkyBlock\generator;
 
 use pocketmine\level\generator\Generator;
+use pocketmine\level\generator\GeneratorManager;
+use pocketmine\level\Level;
 use SkyBlock\generator\generators\BasicIsland;
 use SkyBlock\Main;
 
@@ -22,7 +24,7 @@ class SkyBlockGeneratorManager {
     public function __construct(Main $plugin) {
         $this->plugin = $plugin;
         $this->registerGenerator(BasicIsland::class, "basic", "Basic Island");
-        Generator::addGenerator(BasicIsland::class, "basicgen");
+       GeneratorManager::addGenerator(BasicIsland::class, "basicgen");
     }
 
     /**
@@ -35,11 +37,7 @@ class SkyBlockGeneratorManager {
         return isset($this->generators[$name]);
     }
 
-    /**
-     * Return skyblock generators
-     *
-     * @return SkyBlockGenerator[]
-     */
+
     public function getGenerators() {
         return $this->generators;
     }
@@ -56,7 +54,7 @@ class SkyBlockGeneratorManager {
      * @param string $islandName
      */
     public function registerGenerator($generator, $name, $islandName) {
-        Generator::addGenerator($generator, $name);
+        GeneratorManager::addGenerator($generator, $name);
         $this->generators[$name] = $islandName;
     }
 
