@@ -4,8 +4,22 @@ namespace SkyBlock\chat;
 
 use pocketmine\Player;
 use SkyBlock\island\Island;
+use SkyBlock\Main;
 
-class ChatHandler {
+class ChatHandler{
+
+    private $plugin;
+
+    public function __construct(Main $plugin){
+        $this->plugin = $plugin;
+    }
+
+    /**
+     * @return Main
+     */
+    public function getPlugin(): Main{
+        return $this->plugin;
+    }
 
     /** @var Chat[] */
     private $chats = [];
