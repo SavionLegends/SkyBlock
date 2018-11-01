@@ -4,7 +4,7 @@ namespace SkyBlock;
 
 use pocketmine\plugin\PluginBase;
 use SkyBlock\chat\ChatHandler;
-use SkyBlock\command\SkyBlockCommand;
+use SkyBlock\commands\SkyBlockCommand;
 use SkyBlock\generator\SkyBlockGeneratorManager;
 use SkyBlock\invitation\InvitationHandler;
 use SkyBlock\island\IslandManager;
@@ -53,8 +53,8 @@ class Main extends PluginBase {
         $this->setChatHandler();
         $this->setResetHandler();
         $this->setPluginHeartbeat();
-        $this->registerCommand();
-        $this->getLogger()->info( "Skyblock by xXSirGamesXx, remade by SavionLegends, has been Enabled");
+        SkyBlockCommand::registerAll($this, $this->getServer()->getCommandMap());
+        $this->getLogger()->info("Skyblock by xXSirGamesXx, remade by SavionLegends, has been Enabled");
     }
 
     public function onDisable() {
@@ -187,13 +187,6 @@ class Main extends PluginBase {
      */
     public function setChatHandler() {
         $this->chatHandler = new ChatHandler($this);
-    }
-
-    /**
-     * Register SkyBlock command
-     */
-    public function registerCommand() {
-        $this->getServer()->getCommandMap()->register("skyblock", new SkyBlockCommand($this));
     }
 
     public function initialize() {

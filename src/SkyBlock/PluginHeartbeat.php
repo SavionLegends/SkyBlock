@@ -24,8 +24,7 @@ class PluginHeartbeat extends Task {
 
     public function onRun($currentTick) {
         $this->nextUpdate++;
-        /** @var Main $owner */
-        if($this->nextUpdate == 120) {
+        if($this->nextUpdate === 120) {
             $this->nextUpdate = 0;
             $this->getPlugin()->getIslandManager()->update();
         }

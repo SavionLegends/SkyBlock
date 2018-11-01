@@ -26,21 +26,28 @@ class SkyBlockManager {
      *
      * @param Main $plugin
      */
-    public function __construct(Main $plugin) {
+    public function __construct(Main $plugin){
         $this->plugin = $plugin;
     }
 
-    public function generateIsland(Player $player, $generatorName = "basic") {
-        $this->plugin->getIslandManager()->createIsland($player, $generatorName);
-        $server = $this->plugin->getServer();
+    /**
+     * @return Main
+     */
+    public function getPlugin(): Main{
+        return $this->plugin;
+    }
+
+    public function generateIsland(Player $player, $generatorName = "basic"){
+        $this->getPlugin()->getIslandManager()->createIsland($player, $generatorName);
+        $server = $this->getPlugin()->getServer();
         $island = $this->getPlayerConfig($player)->get("island");
         $server->generateLevel($island, null, GeneratorManager::getGenerator($generatorName));
         $server->loadLevel($island);
         $this->spawnDefaultChest($island);
     }
 
-    public function spawnDefaultChest($islandName) {
-        $level = $this->plugin->getServer()->getLevelByName($islandName);
+    public function spawnDefaultChest($islandName){
+        $level = $this->getPlugin()->getServer()->getLevelByName($islandName);
         $level->setBlock(new Vector3(10, 6, 4), new Block(0, 0));
         $level->loadChunk(10, 4, true);
         /** @var Chest $chest */
@@ -71,22 +78,12 @@ class SkyBlockManager {
     }
 
     /**
-     * Return player data
-     *
-     * @param Player $player
-     * @return string
-     */
-    public function getPlayerDataPath(Player $player) {
-        return $this->plugin->getDataFolder() . "users" . DIRECTORY_SEPARATOR . strtolower($player->getName()) . ".json";
-    }
-
-    /**
      * Register a user
      *
      * @param Player $player
      */
-    public function registerUser(Player $player) {
-        new Config($this->getPlayerDataPath($player), Config::JSON, [
+    public function registerUser(Player $player){
+        new Config($this->getPlugin()->getDataFolder()."users/".$player->getName(), Config::YAML, [
             "island" => ""
         ]);
     }
@@ -96,8 +93,8 @@ class SkyBlockManager {
      *
      * @param Player $player
      */
-    public function tryRegisterUser(Player $player) {
-        if(!is_file($this->getPlayerDataPath($player))) {
+    public function tryRegisterUser(Player $player){
+        if(is_null($this->getPlayerConfig($player)->get("island"))){
             $this->registerUser($player);
         }
     }
@@ -108,8 +105,8 @@ class SkyBlockManager {
      * @param Player $player
      * @return Config
      */
-    public function getPlayerConfig(Player $player) {
-        return new Config($this->getPlayerDataPath($player), Config::JSON);
+    public function getPlayerConfig(Player $player){
+        return new Config($this->getPlugin()->getDataFolder()."users/".$player->getName(), Config::YAML);
     }
 
 }
