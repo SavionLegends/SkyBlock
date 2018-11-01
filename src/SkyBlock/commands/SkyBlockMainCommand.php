@@ -31,8 +31,11 @@ class SkyBlockMainCommand extends SkyBlockCommand{
             if(isset($args[0]) && strtolower($args[0]) === "create"){
                 if(is_null($playerFile->get("island"))){
                     $this->getPlugin()->getSkyBlockManager()->generateIsland($sender, "basic");
+                    $sender->sendMessage(Main::getMessage("ISLAND_MADE"));
                 }
             }
+        }else{
+            $sender->sendMessage(Main::getMessage("MUST_BE_IN_SERVER"));
         }
     }
 }
